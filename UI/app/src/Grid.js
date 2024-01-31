@@ -20,8 +20,7 @@ const Grid = () => {
             <tr key={rowIndex}>
               {Array.from({ length: columns }, (_, colIndex) => (
                 <td key={colIndex}>
-                  <button onClick={() => handleCellClick(rowIndex, colIndex)}>
-                    {rowIndex}, {colIndex}
+                  <button class="tile" onClick={() => handleCellClick(rowIndex, colIndex)}>
                   </button>
                 </td>
               ))}

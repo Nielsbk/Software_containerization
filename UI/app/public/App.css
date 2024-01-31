@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+table {
+  border: 1px solid lightgray;
+  border-collapse: collapse;
+  margin-left: 1em; 
+  line-height: 0;
+}
+
+th, td {
+  border: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.tile {
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  transition: background-color 0.2s ease;
+}
+
+.tile:hover {
+  background-color: rgb(228, 228, 228);
+}
