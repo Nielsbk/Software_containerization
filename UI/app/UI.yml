@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: react-nginx-app
+   labels:
+      app: react-nginx-app
+spec:
+   replicas: 2
+   selector:
+      matchLabels:
+         app: react-nginx-app
+   template:
+      metadata:
+         labels:
+            app: react-nginx-app
+      spec:
+         containers:
+         - name: react-nginx-app
+           image: nielsbk1/react-nginx-app:latest
+           ports:
+           - containerPort: 80
+---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#    name: bb-entrypoint
+#    namespace: default
+# spec:
+#    type: NodePort
+#    selector:
+#       bb: web
+#    ports:
+#       - port: 3000
+#         targetPort: 8080
+#         nodePort: 30001
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#    name: inventory-ui-service
+# spec:
+#    type: NodePort
+#    ports:
+#       - protocol: TCP
+#    nodePort: 30002
+#    port: 8091
+#    targetPort: 80
+# selector:
+#    app: inventory-ui
