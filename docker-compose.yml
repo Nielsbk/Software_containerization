@@ -1,0 +1,32 @@
+# https://docs.docker.com/compose/gettingstarted/#step-3-define-services-in-a-compose-file
+
+version: '3.0'
+
+volumes:
+  db-volume:
+
+services:
+  db:
+    build:
+      context: db
+      dockerfile: Dockerfile
+    volumes:
+      - db-volume:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=DB
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_ROOT_HOST=%
+  
+  server:
+    build:
+      context: server 
+      dockerfile: Dockerfile  
+    depends_on:
+      - db
+    restart: always
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
+    ports:
+      - "5555:5000"
