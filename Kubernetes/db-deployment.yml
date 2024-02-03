@@ -48,6 +48,13 @@ spec:
       containers:
         - name: db
           image: svenlankester/sc-db:latest
+          env:
+            - name: MYSQL_DATABASE
+              value: DB
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+            - name: MYSQL_ROOT_HOST
+              value: '%'
           ports:
           - containerPort: 3306
             name: db
