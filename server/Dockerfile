@@ -1,6 +1,6 @@
 # https://docs.docker.com/compose/gettingstarted/#step-2-create-a-dockerfile
 
-FROM python:3.10.6-alpine
+FROM python:3.12-alpine
 
 WORKDIR /app
 
