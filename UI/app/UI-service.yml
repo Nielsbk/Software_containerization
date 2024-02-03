@@ -3,7 +3,7 @@ kind: Service
 metadata:
    name: ui-entrypoint
 spec:
-   type: NodePort
+   type: ClusterIP
    selector:
       app: react-nginx-app
    ports:
