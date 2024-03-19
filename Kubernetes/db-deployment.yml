@@ -47,7 +47,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: svenlankester/sc-db:latest
+          image: abhilashbalaji/sc-db:latest
           env:
             - name: MYSQL_DATABASE
               value: DB
