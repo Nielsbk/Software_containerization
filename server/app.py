@@ -41,7 +41,7 @@ def home():
             y = data['y']
             color = data['color']
         except KeyError:
-            return make_response('•`_´•', 400)
+            return make_response('not good', 400)
         
         insert_pixel = f"INSERT INTO pixels (coordinate, color) VALUES ('{x},{y}', '{color}')"
         cur.execute(insert_pixel)
@@ -49,4 +49,4 @@ def home():
         return make_response("Coordinate added", 201)
 
 
-    return make_response('•`_´•', 404)
+    return make_response('not found', 404)
