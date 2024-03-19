@@ -16,7 +16,7 @@ spec:
       spec:
          containers:
          - name: react-nginx-app
-           image: nielsbk1/react-nginx-app:latest
+           image: abhilashbalaji/ui-service:latest
            ports:
            - containerPort: 80
 ---
