@@ -1,10 +1,9 @@
+# !/usr/bin/env python3 
 # starting script from https://pythonbasics.org/flask-rest-api/
 # sql code from https://www.learnpythonwithrune.org/how-to-setup-a-mysql-server-in-docker-for-your-python-project/
 
 import json
-import re
 from flask import Flask, make_response, request
-import base64
 import mysql.connector
 import os
 
