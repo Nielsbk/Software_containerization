@@ -41,12 +41,22 @@ def home():
             y = data['y']
             color = data['color']
         except KeyError:
-            return make_response('not good', 400)
-        
-        insert_pixel = f"INSERT INTO pixels (coordinate, color) VALUES ('{x},{y}', '{color}')"
-        cur.execute(insert_pixel)
-        cur.execute("COMMIT")
-        return make_response("Coordinate added", 201)
+            return make_response('could not process request body', 400)
+        # check if coordinate already exists
+        check_coordinate = f"SELECT * FROM pixels WHERE coordinate = '{x},{y}'"
+        cur.execute(check_coordinate)
+        response = cur.fetchall()
+        if response:
+            # if coordinate exists, update color
+            update_pixel = f"UPDATE pixels SET color = '{color}' WHERE coordinate = '{x},{y}'"
+            cur.execute(update_pixel)
+            cur.execute("COMMIT")
+            return make_response("Coordinate updated", 201)
+        else:
+            insert_pixel = f"INSERT INTO pixels (coordinate, color) VALUES ('{x},{y}', '{color}')"
+            cur.execute(insert_pixel)
+            cur.execute("COMMIT")
+            return make_response("Coordinate added", 201)
 
 
     return make_response('not found', 404)

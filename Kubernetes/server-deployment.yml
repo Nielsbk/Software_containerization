@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: server-container
-          image: nielsbk/server
+          image: abhilashbalaji/sc-server:latest
           imagePullPolicy: Always
           env:
             - name: MYSQL_HOST
