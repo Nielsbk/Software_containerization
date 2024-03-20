@@ -1,14 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Grid = () => {
   const rows = 5;
   const columns = 5;
 
   const [clickedCells, setClickedCells] = useState([]);
+  const [cellColors, setCellColors] = useState([]);
 
-  const handleCellClick = (row, col) => {
+  useEffect(() => {
+    // Function to fetch colors from the API
+    const fetchColors = async () => {
+      try {
+        // const response = await fetch('localhost:31640');
+        // const data = await response.json();
+        // console.error(data)
+        // setCellColors(data);
+        const headers = { "Access-Control-Allow-Origin": '*' }
+        fetch('http://localhost:31640', { headers })
+        .then(response => response.json())
+        .then(data => setCellColors(data));
+      } catch (error) {
+        console.error('Error fetching colors:', error);
+      }
+    };
+
+    // Call the fetchColors function when the component mounts
+    fetchColors();
+  }, []); // Empty dependency array ensures the effect runs only once on mount
+
+  const handleCellClick = async (row, col) => {
     // Add the clicked cell to the array
     setClickedCells([...clickedCells, { row, col }]);
+
+    // Generate a random color
+    const randomColor = getRandomColor();
+
+    // Make a POST API call to update the color of the clicked cell
+    try {
+      const response = await fetch('http://localhost:31640', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          x: row,
+          y: col,
+          color: randomColor,
+        }),
+      });
+      if (response.ok) {
+        // If the POST request is successful, update the state with the new color
+        setCellColors([...cellColors, [`${row},${col}`, randomColor]]);
+      } else {
+        console.error('Failed to update color:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error updating color:', error);
+    }
+  };
+
+  const getRandomColor = () => {
+    // Generate a random hex color
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  };
+
+
+  const getColorForCell = (row, col) => {
+    // Find the color for the given coordinates
+    const cell = cellColors.find(([coordinates,_]) => coordinates === row+","+col);
+    // console.log(row+","+col)
+    console.log(cellColors)
+    return cell ? cell[1] : 'blue'; // Default to white if color not found
   };
 
   return (
@@ -20,7 +82,12 @@ const Grid = () => {
             <tr key={rowIndex}>
               {Array.from({ length: columns }, (_, colIndex) => (
                 <td key={colIndex}>
-                  <button class="tile" onClick={() => handleCellClick(rowIndex, colIndex)}>
+                  <button
+                    style={{ backgroundColor:getColorForCell(rowIndex, colIndex)}}
+                    onClick={() => handleCellClick(rowIndex, colIndex)}
+                    class="tile"
+                  >
+                    {rowIndex}, {colIndex}
                   </button>
                 </td>
               ))}

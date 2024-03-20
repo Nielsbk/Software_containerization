@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: server-container
-          image: abhilashbalaji/sc-server:latest
+          image: nielsbk/server
           imagePullPolicy: Always
           env:
             - name: MYSQL_HOST
@@ -35,10 +35,11 @@ kind: Service
 metadata:
   name: server-service
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 5000
       targetPort: 5000
+      nodePort: 31640
   selector:
     app: server

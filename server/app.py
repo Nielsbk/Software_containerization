@@ -6,10 +6,11 @@ import json
 from flask import Flask, make_response, request
 import mysql.connector
 import os
+from flask_cors import CORS
 
 
 app = Flask(__name__)
-
+CORS(app)
 url_db = mysql.connector.connect(
     host = os.getenv('MYSQL_HOST'),
     user = os.getenv('MYSQL_USER'),
