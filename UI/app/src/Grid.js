@@ -7,25 +7,25 @@ const Grid = () => {
   const [clickedCells, setClickedCells] = useState([]);
   const [cellColors, setCellColors] = useState([]);
 
-  useEffect(() => {
-    // Function to fetch colors from the API
-    const fetchColors = async () => {
-      try {
-        // const response = await fetch('localhost:31640');
-        // const data = await response.json();
-        // console.error(data)
-        // setCellColors(data);
-        const headers = { "Access-Control-Allow-Origin": '*' }
-        fetch('http://localhost:31640', { headers })
-        .then(response => response.json())
-        .then(data => setCellColors(data));
-      } catch (error) {
-        console.error('Error fetching colors:', error);
-      }
-    };
+  async function refreshColors() {
+    console.log('Refreshing colors...');
+    try {
+      // const response = await fetch('localhost:31640');
+      // const data = await response.json();
+      // console.error(data)
+      // setCellColors(data);
+      const headers = { "Access-Control-Allow-Origin": '*' }
+      fetch('http://localhost:31640', { headers })
+      .then(response => response.json())
+      .then(data => setCellColors(data));
+    } catch (error) {
+      console.error('Error fetching colors:', error);
+    }
+  }
 
-    // Call the fetchColors function when the component mounts
-    fetchColors();
+  useEffect(() => {
+    // Call the refreshColors function when the component mounts
+    refreshColors();
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const handleCellClick = async (row, col) => {
@@ -49,8 +49,10 @@ const Grid = () => {
         }),
       });
       if (response.ok) {
+        refreshColors();
         // If the POST request is successful, update the state with the new color
         setCellColors([...cellColors, [`${row},${col}`, randomColor]]);
+
       } else {
         console.error('Failed to update color:', response.statusText);
       }
@@ -69,7 +71,7 @@ const Grid = () => {
     // Find the color for the given coordinates
     const cell = cellColors.find(([coordinates,_]) => coordinates === row+","+col);
     // console.log(row+","+col)
-    console.log(cellColors)
+    // console.log(cellColors)
     return cell ? cell[1] : 'blue'; // Default to white if color not found
   };
 
