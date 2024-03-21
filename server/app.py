@@ -21,12 +21,16 @@ cur.execute("USE DB")
 
 
 
+
 @app.route('/', methods=['GET', 'POST', 'DELETE'])
 def home():    
     # get all pixel coordinates
     if(request.method == 'GET'):
         retrieve_all = f"SELECT coordinate,color FROM pixels"
-        cur.execute(retrieve_all)
+        try:
+            cur.execute(retrieve_all)
+        except:
+            return make_response('could not process request', 400)
         response = cur.fetchall()
         data = json.dumps(response)
         print(data)
@@ -44,18 +48,33 @@ def home():
             return make_response('could not process request body', 400)
         # check if coordinate already exists
         check_coordinate = f"SELECT * FROM pixels WHERE coordinate = '{x},{y}'"
-        cur.execute(check_coordinate)
+        try:
+            cur.execute(check_coordinate)
+        except:
+            return make_response('could not process request', 400)
         response = cur.fetchall()
         if response:
             # if coordinate exists, update color
             update_pixel = f"UPDATE pixels SET color = '{color}' WHERE coordinate = '{x},{y}'"
-            cur.execute(update_pixel)
-            cur.execute("COMMIT")
+            try:
+                cur.execute(update_pixel)
+            except:
+                return make_response('could not process request', 400)
+            try:
+                cur.execute("COMMIT")
+            except:
+                return make_response('could not process request', 400)
             return make_response("Coordinate updated", 201)
         else:
             insert_pixel = f"INSERT INTO pixels (coordinate, color) VALUES ('{x},{y}', '{color}')"
-            cur.execute(insert_pixel)
-            cur.execute("COMMIT")
+            try:
+                cur.execute(insert_pixel)
+            except:
+                return make_response('could not process request', 400)
+            try:
+                cur.execute("COMMIT")
+            except:
+                return make_response('could not process request', 400)
             return make_response("Coordinate added", 201)
 
 

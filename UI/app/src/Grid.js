@@ -9,14 +9,18 @@ const Grid = () => {
 
   async function refreshColors() {
     try {
-      // const response = await fetch('localhost:31640');
-      // const data = await response.json();
-      // console.error(data)
-      // setCellColors(data);
       const headers = { "Access-Control-Allow-Origin": '*' }
-      fetch('http://localhost:31640', { headers })
-      .then(response => response.json())
-      .then(data => setCellColors(data));
+      const response = await fetch('http://localhost:31640', { headers });
+      if (!response.ok) {
+        console.error('Failed to fetch colors:', response.statusText);
+        return
+      }
+      const data = await response.json();
+      setCellColors(data);
+      // const headers = { "Access-Control-Allow-Origin": '*' }
+      // fetch('http://localhost:31640', { headers })
+      // .then(response => response.json())
+      // .then(data => setCellColors(data));
     } catch (error) {
       console.error('Error fetching colors:', error);
     }
@@ -51,6 +55,7 @@ const Grid = () => {
         }),
       });
       if (response.ok) {
+        refreshColors();
         // If the POST request is successful, update the state with the new color
         setCellColors([...cellColors, [`${row},${col}`, randomColor]]);
 
