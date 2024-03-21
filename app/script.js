@@ -17,12 +17,12 @@ function createGrid() {
   updateGridColors();
 }
 
-// Function to handle square click
+
 function handleClick(event) {
   const square = event.target;
   const x = square.dataset.x;
   const y = square.dataset.y;
-  const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16); // Generate random color
+  const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16); 
   const data = { x, y, color: randomColor };
   
   fetch('http://localhost:31640', {
@@ -38,7 +38,7 @@ function handleClick(event) {
       console.log("Success:", response);
     }
     else {
-      console.log("Error in post response: ", response);
+      cons0ole.log("Error in post response: ", response);
     }
   })
   .catch((error) => {
@@ -47,7 +47,6 @@ function handleClick(event) {
   
 }
 
-// Function to update grid colors
 function updateGridColors() {
   console.log("Updating grid colors")
   fetch('http://localhost:31640')
