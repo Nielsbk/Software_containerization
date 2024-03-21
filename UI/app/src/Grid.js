@@ -8,7 +8,6 @@ const Grid = () => {
   const [cellColors, setCellColors] = useState([]);
 
   async function refreshColors() {
-    console.log('Refreshing colors...');
     try {
       // const response = await fetch('localhost:31640');
       // const data = await response.json();
@@ -26,6 +25,9 @@ const Grid = () => {
   useEffect(() => {
     // Call the refreshColors function when the component mounts
     refreshColors();
+    setInterval(() => {
+      refreshColors();
+    }, 2000);
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const handleCellClick = async (row, col) => {
@@ -49,7 +51,6 @@ const Grid = () => {
         }),
       });
       if (response.ok) {
-        refreshColors();
         // If the POST request is successful, update the state with the new color
         setCellColors([...cellColors, [`${row},${col}`, randomColor]]);
 
