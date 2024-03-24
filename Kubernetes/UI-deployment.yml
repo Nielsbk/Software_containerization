@@ -31,7 +31,7 @@ spec:
       spec:
          containers:
          - name: react-nginx-app
-           image: svenlankester/ui:latest
+           image: abhilashbalaji/ui:latest
            imagePullPolicy: Always
            ports:
            - containerPort: 80

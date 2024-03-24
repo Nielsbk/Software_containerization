@@ -79,3 +79,13 @@ def home():
 
 
     return make_response('not found', 404)
+# reset all pixels
+@app.route('/reset', methods=['DELETE'])
+def reset():
+    if(request.method == 'DELETE'):
+        reset_pixels = f"UPDATE pixels SET color = '#000000'"
+        cur.execute(reset_pixels)
+        cur.execute("COMMIT")
+        return make_response("All pixels reset", 200)
+    else:
+        return make_response('endpoint not found', 404)

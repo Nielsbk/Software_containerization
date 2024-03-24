@@ -34,6 +34,25 @@ const Grid = () => {
     }, 2000);
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
+  const refreshDB = async () => {
+    try {
+      const response = await fetch('http://localhost:31640/reset', {
+        method: 'DELETE',
+        headers: {
+          "Access-Control-Allow-Origin": '*'
+        },
+      });
+      if (response.ok) {
+        setCellColors([]);
+      }
+    }
+    catch (error) {
+      console.error('Error updating color:', error);
+    }
+    await refreshColors();
+
+  }
+
   const handleCellClick = async (row, col) => {
     // Add the clicked cell to the array
     setClickedCells([...clickedCells, { row, col }]);
@@ -103,6 +122,9 @@ const Grid = () => {
           ))}
         </tbody>
       </table>
+      <div>
+        <button onClick={() => refreshDB()}>Refresh DB</button>
+      </div>
 
       {/* Display clicked cells */}
       <div>
