@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: db-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/lib/mysql"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-pvc
+  labels:
+    app: db
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+  labels:
+    app: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: abhilashbalaji/sc-db:latest
+          env:
+            - name: MYSQL_DATABASE
+              value: DB
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+            - name: MYSQL_ROOT_HOST
+              value: '%'
+          ports:
+          - containerPort: 3306
+            name: db
+          volumeMounts:
+          - name: db-persistent-storage
+            mountPath: /var/lib/mysql
+      volumes:
+      - name: db-persistent-storage
+        persistentVolumeClaim:
+          claimName: db-pvc
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: db
