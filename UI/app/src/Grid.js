@@ -26,13 +26,14 @@ const Grid = () => {
     }
   }
 
-  // useEffect(() => {
-  //   // Call the refreshColors function when the component mounts
-  //   refreshColors();
-  //   // setInterval(() => {
-  //   //   refreshColors();
-  //   // }, 2000);
-  // }, []); // Empty dependency array ensures the effect runs only once on mount
+  useEffect(() => {
+    // Call the refreshColors function when the component mounts
+    refreshColors();
+    const interval = setInterval(() => {
+      refreshColors();
+    }, 2000);
+    return () => clearInterval(interval)
+  }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const refreshDB = async () => {
     try {
@@ -75,6 +76,8 @@ const Grid = () => {
       });
       if (response.ok) {
         refreshColors();
+        // If the POST request is successful, update the state with the new color
+        setCellColors([...cellColors, [`${row},${col}`, randomColor]]);
 
       } else {
         console.error('Failed to update color:', response.statusText);
