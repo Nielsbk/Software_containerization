@@ -17,10 +17,6 @@ const Grid = () => {
       }
       const data = await response.json();
       setCellColors(data);
-      // const headers = { "Access-Control-Allow-Origin": '*' }
-      // fetch('http://localhost:31640', { headers })
-      // .then(response => response.json())
-      // .then(data => setCellColors(data));
     } catch (error) {
       console.error('Error fetching colors:', error);
     }
@@ -76,9 +72,6 @@ const Grid = () => {
       });
       if (response.ok) {
         refreshColors();
-        // If the POST request is successful, update the state with the new color
-        setCellColors([...cellColors, [`${row},${col}`, randomColor]]);
-
       } else {
         console.error('Failed to update color:', response.statusText);
       }
@@ -96,9 +89,7 @@ const Grid = () => {
   const getColorForCell = (row, col) => {
     // Find the color for the given coordinates
     const cell = cellColors.find(([coordinates,_]) => coordinates === row+","+col);
-    // console.log(row+","+col)
-    // console.log(cellColors)
-    return cell ? cell[1] : 'blue'; // Default to white if color not found
+    return cell ? cell[1] : 'blue'; // default color
   };
 
   return (
