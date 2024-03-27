@@ -1,0 +1,6 @@
+db:
+  replicaCount:1
+server:
+  replicaCount:3
+UI:
+  replicaCount:2

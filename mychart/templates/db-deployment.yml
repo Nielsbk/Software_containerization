@@ -35,17 +35,20 @@ metadata:
   name: db-deployment
   labels:
     app: db
+    {{- include "mychart.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: db
+      {{- include "mychart.selectorLabels" . | nindent 6 }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: db
+        {{- include "mychart.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: db
