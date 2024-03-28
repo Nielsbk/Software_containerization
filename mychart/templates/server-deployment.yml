@@ -16,15 +16,21 @@ spec:
     spec:
       containers:
         - name: server-container
-          image: abhilashbalaji/sc-server:latest
+          image: svenlankester/sc-server:latest
           imagePullPolicy: Always
           env:
             - name: MYSQL_HOST
               value: db-service
             - name: MYSQL_USER
-              value: root
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: mysql_root_user
             - name: MYSQL_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: mysql_root_password
           ports:
             - containerPort: 5000
               name: server
