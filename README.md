@@ -12,9 +12,10 @@ In each respective folder (DB/, server/ and UI/app/) run
 docker build -t <name> .
 docker push <name>
 ```
-to build an image. You can also use Docker Desktop to push it to dockerhub
+to build an image. You can also use Docker Desktop to push it to dockerhub.
 
 #### Running locally
+(be sure to delete or ignore UI-deployment-canary.yml to avoid 2 separate deployments) a duplicate
 Locally (using kubectl) all components can simply be set-up and deleted from the base folder using
 ```
 kubectl apply -f ./Kubernetes/
@@ -22,6 +23,7 @@ kubectl delete -f ./Kubernetes/
 ```
 
 #### Commands used in the presentation for GCS
+(be sure to delete or ignore UI-deployment-canary.yml to avoid 2 separate deployments) a duplicate
 ```
 gcloud config set compute/zone europe-west4-b
 gcloud container clusters create sc
