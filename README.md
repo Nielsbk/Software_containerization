@@ -42,3 +42,14 @@ gcloud container clusters delete sc
 ```
 
 #### Re-building and upgrading a running app
+```
+Make the change to the UI source 
+
+Docker build 
+
+kubectl edit deployments.apps react-nginx-app   -> edit the number of replicas in spec
+
+Kubectl apply canary-deployment
+
+Kubectl edit deployments.apps canary-react-app -> edit number of replicas
+```
