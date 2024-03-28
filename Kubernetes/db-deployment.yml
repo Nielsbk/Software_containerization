@@ -49,7 +49,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: abhilashbalaji/sc-db:latest
+          image: svenlankester/sc-db:latest
           env:
             - name: MYSQL_DATABASE
               value: DB
